@@ -1,36 +1,41 @@
 import numpy as np
 
-def GaussJordan(x,y):
-    m,n=x.shape
-    augmat=np.zeros(shape=(m,n+1))
-    augmat[:m,:n]=x
-    augmat[:,m]=y
-    np.set_printoptions(precision=2,suppress=True)
-    print('# Original augmented matrix')
-    print(augmat)
-    for i in range(0,m-1):
-        for j in range(i+1,m):
-            k=(-1)*augmat[j,i]/augmat[i,i]
-            temprow=augmat[i,:]*k
-            print('# Use line %2i for line %2i'%(i+1,j+1))
-            print('k=%.2f'%k,'*',augmat[i,:],'=',temprow)
-            augmat[j,:]=augmat[j,:]+temprow
-            print(augmat)
-    for i in range(m-1,0,-1):
-        for j in range(i-1,-1,-1):
-            k=(-1)*augmat[j,i]/augmat[i,i]
-            temprow=augmat[i,:]*k
-            print('# Use line %2i for line %2i'%(i+1,j+1))
-            print('k=%.2f'%k,'*',augmat[i,:],'=',temprow)
-            augmat[j,:]=augmat[j,:]+temprow
-            print(augmat)
-    for i in range(0,m):
-        augmat[i,:]=augmat[i,:]/augmat[i,i]
-    print('# Normalize the rows')
-    print(augmat)
-    return augmat[:,n]
 
-x=np.array([[5,15,25],[15,25,55],[25,55,225]])
-y=np.array([15,25,225])
-b=GaussJordan(x,y)
-print(b)
+def gauss_jordan(x, y):
+    m, n = x.shape
+    augmented_mat = np.zeros(shape=(m, n+1))
+    augmented_mat[:m, :n] = x
+    augmented_mat[:, m] = y
+    np.set_printoptions(precision=2, suppress=True)
+    print('# Original augmented matrix')
+    print(augmented_mat)
+    for i in range(0, m-1):
+        for j in range(i+1, m):
+            k = (-1) * augmented_mat[j, i] / augmented_mat[i, i]
+            temp_row = augmented_mat[i, :]*k
+            print('# Use line %2i for line %2i' % (i+1, j+1))
+            print('k=%.2f' % k, '*', augmented_mat[i, :], '=', temp_row)
+            augmented_mat[j, :] = augmented_mat[j, :] + temp_row
+            print(augmented_mat)
+    for i in range(m-1, 0, -1):
+        for j in range(i-1, -1, -1):
+            k = (-1) * augmented_mat[j, i] / augmented_mat[i, i]
+            temp_row = augmented_mat[i, :] * k
+            print('# Use line %2i for line %2i' % (i+1, j+1))
+            print('k=%.2f' % k, '*', augmented_mat[i, :], '=', temp_row)
+            augmented_mat[j, :] = augmented_mat[j, :] + temp_row
+            print(augmented_mat)
+    for i in range(0, m):
+        augmented_mat[i, :] = augmented_mat[i, :] / augmented_mat[i, i]
+    print('# Normalize the rows')
+    print(augmented_mat)
+    return augmented_mat[:, n]
+
+
+if __name__ == "__main__":
+    coefficients = np.array([[5, 15, 25],
+                             [15, 25, 55],
+                             [25, 55, 225]])
+    right_hand_side = np.array([15, 25, 225])
+    b = gauss_jordan(coefficients, right_hand_side)
+    print(b)
